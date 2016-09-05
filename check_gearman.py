@@ -1,8 +1,10 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import gearman
 import json
 import sys
-
+import argparse
 
 def discover_tasks(server, port):
     d = {'data': []}
@@ -10,7 +12,7 @@ def discover_tasks(server, port):
         [':'.join([server, str(port)])])
     for task in gm_admin_client.get_status():
         d['data'].append({'{#TASK}': task['task']})
-    return json.dumps(d, indent=1) # delete indent
+    return json.dumps(d)
 
 def get_task_info(server, port, function, task_name):
     gm_admin_client = gearman.GearmanAdminClient(
@@ -32,8 +34,16 @@ if __name__ == '__main__':
     function = sys.argv[4]
     task_name = sys.argv[5]
 
-    if api == 'discover':
-        print discover_tasks(server, port)
-    elif api == 'stat':
-        get_task_info(server, port, function, task_name)
+    arg_parser = argparse.ArgumentParser(description='Gearman check for Zabbix')
+    arg_parser.add_argument('-H', '--host', help="Specify host or ip address", default="localhost", required=True)
+    arg_parser.add_argument('-p', '--port', help="Specify port - default 4730", type=int, default=4730, required=True)
+    arg_parser.add_argument('-a', '--api', help="Specify api - [discover, stat]", required=True)
+    arg_parser.add_argument('-f', '--function', help="Specify stat function - [jobs, workers]")
+    arg_parser.add_argument('-t', '--task', help="Specify task's name")
+    arguments = arg_parser.parse_args()
+
+    if arguments.api == 'discover':
+        print discover_tasks(arguments.host, arguments.port)
+    elif arguments.api == 'stat':
+        get_task_info(arguments.host, arguments.port, arguments.function, arguments.task)
 
