@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     arg_parser = argparse.ArgumentParser(description='Gearman check for Zabbix')
     arg_parser.add_argument('-H', '--host', help="Specify host or ip address", default="localhost", required=True)
-    arg_parser.add_argument('-p', '--port', help="Specify port - default 4730", type=int, default=4730, required=True)
+    arg_parser.add_argument('-p', '--port', help="Specify port - default 4730", type=int, default=4730)
     arg_parser.add_argument('-a', '--api', help="Specify api - [discover, stat]", required=True)
     arg_parser.add_argument('-f', '--function', help="Specify stat function - [jobs, workers]")
     arg_parser.add_argument('-t', '--task', help="Specify task's name")
