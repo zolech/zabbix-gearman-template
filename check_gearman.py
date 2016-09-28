@@ -30,12 +30,6 @@ def get_task_info(server, port, function, task_name):
 
 
 if __name__ == '__main__':
-    server = sys.argv[1]
-    port = sys.argv[2]
-    api = sys.argv[3]
-    function = sys.argv[4]
-    task_name = sys.argv[5]
-
     arg_parser = argparse.ArgumentParser(
         description='Gearman check for Zabbix')
     arg_parser.add_argument(
